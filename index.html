@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sinthyz Megh</title>
+</head>
+<body>
+  <h2>🔐 LOVE NOTES</h2>
+  <textarea id="note" rows="10" cols="60" placeholder="Write your secret..."></textarea><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="encryptNote()">Encrypt</button>
+  <button onclick="decryptNote()">Decrypt</button>
+  <p><strong>Encrypted Output:</strong></p>
+  <textarea id="output" rows="5" cols="60"></textarea>
+
+  <script>
+    function encryptNote() {
+      const text = document.getElementById('note').value;
+      const password = document.getElementById('password').value;
+      const encrypted = btoa(unescape(encodeURIComponent(text + '::' + password)));
+      document.getElementById('output').value = encrypted;
+    }
+
+    function decryptNote() {
+      const encrypted = document.getElementById('output').value;
+      const password = document.getElementById('password').value;
+      try {
+        const decrypted = decodeURIComponent(escape(atob(encrypted)));
+        const parts = decrypted.split('::');
+        if (parts[1] === password) {
+          document.getElementById('note').value = parts[0];
+        } else {
+          alert('Wrong password!');
+        }
+      } catch (e) {
+        alert('Invalid encrypted data!');
+      }
+    }
+  </script>
+</body>
+</html>
